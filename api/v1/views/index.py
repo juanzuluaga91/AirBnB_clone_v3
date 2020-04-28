@@ -9,17 +9,17 @@ from models.state import State
 from models.user import User
 from models.amenity import Amenity
 from json import dumps
+from flask import jsonify
 
 
-@app_views.route('/status')
+@app_views.route('/status', methods=['GET'], strict_slashes=False)
 def status():
     """returns a JSON: "status": "OK"""
     status_dict = {"status": "OK"}
-    status_dict = dumps(status_dict, indent=4)
-    return (status_dict)
+    return jsonify(status_dict)
 
 
-@app_views.route('/stats')
+@app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def stats():
     """returns a JSON: "status": "OK"""
     classes = {"Amenity": Amenity, "City": City,
@@ -29,5 +29,5 @@ def stats():
     for value in classes.values():
         count = storage.count(value)
         dict_count[value.__name__] = count
-    dict_count = dumps(dict_count, indent=4)
+    dict_count = jsonify(dict_count)
     return (dict_count)
