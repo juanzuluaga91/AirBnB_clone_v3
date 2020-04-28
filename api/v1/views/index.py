@@ -24,10 +24,13 @@ def stats():
     """returns a JSON: "status": "OK"""
     classes = {"Amenity": Amenity, "City": City,
                "Place": Place, "Review": Review, "State": State, "User": User}
+    keys = ["amenities", "cities", "places", "reviews", "states", "users"]
     dict_count = {}
+    i = 0
     count = 0
     for value in classes.values():
         count = storage.count(value)
-        dict_count[value.__name__] = count
+        dict_count[keys[i]] = count
+        i = i + 1
     dict_count = jsonify(dict_count)
     return (dict_count)
