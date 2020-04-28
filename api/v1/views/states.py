@@ -62,9 +62,9 @@ def post_state():
             dict_obj = obj_state.to_dict()
             return jsonify(dict_obj)
         else:
-            return 'Missing name', 400
+            return jsonify({"error": "Missing name"}), 400
     except:
-        return 'Not a JSON', 400
+        return jsonify({"error": "Not a JSON"}), 400
 
 
 @app_views.route('/states/<id>', methods=['PUT'], strict_slashes=False)
