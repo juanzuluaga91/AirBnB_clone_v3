@@ -1,0 +1,10 @@
+#!/usr/bin/python3
+from models import storage
+from models.state import State
+
+
+print("-- Create a new object --")
+my_model = State()
+my_model.name = "California"
+my_model.save()
+print(my_model)
