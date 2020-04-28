@@ -29,5 +29,5 @@ def stats():
     for key, value in classes.items():
         count = storage.count(value)
         dic_count[key] = count
-    dic_count = jsonify(dict_count)
+    dic_count = jsonify(dic_count)
     return (dic_count)
