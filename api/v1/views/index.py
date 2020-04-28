@@ -28,6 +28,6 @@ def stats():
     count = 0
     for value in classes.values():
         count = storage.count(value)
-        dict_count[value.__name__] = count
+        dict_count[value.__name__.lower()] = count
     dict_count = jsonify(dict_count)
     return (dict_count)
