@@ -26,7 +26,6 @@ def stats():
                "places": Place, "reviews": Review,
                "states": State, "users": User}
     dict_count = {}
-    i = 0
     for key, value in classes.items():
         count = storage.count(value)
         dict_count[key] = count
