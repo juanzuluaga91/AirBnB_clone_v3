@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Starts a Flash Web Application """
 from models import storage
-from flask import Flask
+from flask import Flask, jsonify
 from api.v1.views import app_views
 from os import getenv
 from json import dumps
@@ -15,7 +15,7 @@ app.url_map.strict_slashes = False
 def error_404(error):
     """handler for 404 errors that returns a JSON-formatted"""
     error_dict = {"error": "Not found"}
-    error_dict = dumps(error_dict, indent=4)
+    error_dict = jsonify(error_dict)
     return error_dict, 404
 
 
