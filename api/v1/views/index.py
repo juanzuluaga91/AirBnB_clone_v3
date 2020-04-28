@@ -22,15 +22,12 @@ def status():
 @app_views.route('/stats', methods=['GET'], strict_slashes=False)
 def stats():
     """returns a JSON: "status": "OK"""
-    classes = {"Amenity": Amenity, "City": City,
-               "Place": Place, "Review": Review, "State": State, "User": User}
-    keys = ["amenities", "cities", "places", "reviews", "states", "users"]
+    classes = {"amenities": Amenity, "cities": City,
+               "places": Place, "reviews": Review,
+               "states": State, "users": User}
     dict_count = {}
-    i = 0
-    count = 0
-    for value in classes.values():
+    for key, value in classes.items():
         count = storage.count(value)
-        dict_count[keys[i]] = count
-        i = i + 1
+        dict_count[key] = count
     dict_count = jsonify(dict_count)
     return (dict_count)
