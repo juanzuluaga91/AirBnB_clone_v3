@@ -58,8 +58,7 @@ def post_state():
     if 'name' in new_state:
         obj_state = State()
         obj_state.name = new_state['name']
-        storage.new(obj_state)
-        storage.save()
+        obj_state.save()
         dict_obj = obj_state.to_dict()
         return make_response(jsonify(dict_obj), 201)
     else:
@@ -79,7 +78,7 @@ def edit_by_id(id):
         if "name" in new_state:
             obj = dict_states[key]
             obj.name = new_state["name"]
-            storage.save()
+            obj.save()
             obj = obj.to_dict()
             return make_response(jsonify(obj), 200)
         else:
