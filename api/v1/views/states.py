@@ -5,7 +5,7 @@ from models import storage
 from models.state import State
 from json import dumps
 from api.v1.app import *
-from flask import abort, request, jsonify
+from flask import abort, request, jsonify, make_response
 
 
 @app_views.route('/states/', methods=['GET'], strict_slashes=False)
@@ -48,39 +48,39 @@ def delete_by_id(id):
         abort(404)
 
 
-@app_views.route('/states/', methods=['POST'], strict_slashes=False)
+@app_views.route('/states', methods=['POST'], strict_slashes=False)
 def post_state():
     """get request and post new state"""
-    new_state = None
-    try:
-        new_state = request.get_json()
-        if 'name' in new_state:
-            obj_state = State()
-            obj_state.name = new_state['name']
-            storage.new(obj_state)
-            storage.save()
-            dict_obj = obj_state.to_dict()
-            return jsonify(dict_obj)
-        else:
-            return jsonify({"error": "Missing name"}), 400
-    except:
-        return jsonify({"error": "Not a JSON"}), 400
+    if not request.get_json():
+        abort(400, description="Not a JSON")
+
+    new_state = request.get_json()
+    if 'name' in new_state:
+        obj_state = State()
+        obj_state.name = new_state['name']
+        storage.new(obj_state)
+        storage.save()
+        dict_obj = obj_state.to_dict()
+        return make_response(jsonify(dict_obj), 201)
+    else:
+        abort(400, description="Missing name")
 
 
 @app_views.route('/states/<id>', methods=['PUT'], strict_slashes=False)
 def edit_by_id(id):
     """edit state by id"""
-    try:
-        dict_states = storage.all(State)
-        new_state = request.get_json()
-        key = "State." + id
+    if not request.get_json():
+        abort(400, description="Not a JSON")
+
+    dict_states = storage.all(State)
+    new_state = request.get_json()
+    key = "State." + id
+    if "name" in dict_states:
         if key in dict_states:
             obj = dict_states[key]
             obj.name = new_state["name"]
             storage.save()
             obj = obj.to_dict()
-            return jsonify(obj)
-        else:
-            abort(404)
-    except:
-        return 'Not a JSON', 400
+            return make_response(jsonify(obj), 200)
+    else:
+        abort(404)
