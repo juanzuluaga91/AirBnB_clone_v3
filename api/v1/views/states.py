@@ -82,5 +82,7 @@ def edit_by_id(id):
             storage.save()
             obj = obj.to_dict()
             return make_response(jsonify(obj), 200)
+        else:
+            abort(404)
     else:
         abort(404)
