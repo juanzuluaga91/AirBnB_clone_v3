@@ -75,12 +75,14 @@ def edit_by_id(id):
     dict_states = storage.all(State)
     new_state = request.get_json()
     key = "State." + id
-    if "name" in new_state:
-        if key in dict_states:
+    if key in dict_states:
+        if "name" in new_state:
             obj = dict_states[key]
             obj.name = new_state["name"]
             storage.save()
             obj = obj.to_dict()
             return make_response(jsonify(obj), 200)
+        else:
+            abort(404)
     else:
         abort(404)
