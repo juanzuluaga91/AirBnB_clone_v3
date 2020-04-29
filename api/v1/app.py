@@ -2,6 +2,7 @@
 """ Starts a Flash Web Application """
 from models import storage
 from flask import Flask, jsonify
+from flask_cors import CORS
 from api.v1.views import app_views
 from os import getenv
 from json import dumps
@@ -9,6 +10,8 @@ from json import dumps
 app = Flask(__name__)
 app.register_blueprint(app_views)
 app.url_map.strict_slashes = False
+cors = CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
+
 
 
 @app.errorhandler(404)
