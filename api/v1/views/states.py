@@ -78,7 +78,7 @@ def edit_by_id(id):
         if "name" in new_state:
             obj = dict_states[key]
             obj.name = new_state["name"]
-            storage.save()
+            obj.save()
             obj = obj.to_dict()
             return make_response(jsonify(obj), 200)
         else:
