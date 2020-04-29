@@ -58,8 +58,7 @@ def post_state():
     if 'name' in new_state:
         obj_state = State()
         obj_state.name = new_state['name']
-        storage.new(obj_state)
-        storage.save()
+        obj_state.save()
         dict_obj = obj_state.to_dict()
         return make_response(jsonify(dict_obj), 201)
     else:
