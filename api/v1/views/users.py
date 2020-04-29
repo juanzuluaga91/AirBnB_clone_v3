@@ -6,6 +6,7 @@ from models.user import User
 from api.v1.views import app_views
 from flask import jsonify, abort, request, make_response
 
+
 @app_views.route('/users', methods=['GET'], strict_slashes=False)
 def get_all_users():
     """get user information for all users"""
@@ -65,6 +66,7 @@ def post_user():
     storage.save()
     dict_obj = obj_user.to_dict()
     return make_response(jsonify(dict_obj), 201)
+
 
 @app_views.route('/users/<id>', methods=['PUT'], strict_slashes=False)
 def edit_usr_id(id):
