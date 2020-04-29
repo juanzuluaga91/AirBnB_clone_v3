@@ -61,6 +61,7 @@ def post_amenity():
     dict_obj = obj_amenity.to_dict()
     return make_response(jsonify(dict_obj), 201)
 
+
 @app_views.route('/amenities/<id>', methods=['PUT'], strict_slashes=False)
 def edit_amnty_id(id):
     """edit Amenity by id"""
