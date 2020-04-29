@@ -13,7 +13,6 @@ app.url_map.strict_slashes = False
 cors = CORS(app, resources={r"/*": {"origins": "0.0.0.0"}})
 
 
-
 @app.errorhandler(404)
 def error_404(error):
     """handler for 404 errors that returns a JSON-formatted"""
@@ -26,6 +25,7 @@ def error_404(error):
 def teardown_db(exception):
     """closes the storage on teardown"""
     storage.close()
+
 
 if __name__ == '__main__':
     app.run(host=getenv('HBNB_API_HOST', '0.0.0.0'),
