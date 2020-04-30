@@ -4,6 +4,7 @@ from api.v1.views import app_views
 from models import storage
 from models.city import City
 from models.place import Place
+from models.user import User
 from json import dumps
 from flask import abort, request, jsonify, make_response
 
@@ -73,6 +74,10 @@ def post_place(city_id):
     atributes = ['number_rooms', 'number_bathrooms',
                  'max_guest', 'price_by_night', 'latitude',
                  'longitude', 'description']
+    user_key = "User." + new_place["user_id"]
+    all_users = storage.all(User)
+    if user_key not in all_users:
+        abort(404)
     if key in all_cities:
         obj_city = all_cities[key]
         obj_places = Place()
