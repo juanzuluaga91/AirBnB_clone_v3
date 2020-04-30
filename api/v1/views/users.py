@@ -52,17 +52,13 @@ def post_user():
     if not request.get_json():
         abort(400, description="Not a JSON")
     new_user = request.get_json()
-    # if 'name' not in new_user:
-    #     return abort(400, description="Missing name")
     if 'email' not in new_user:
         return abort(400, description="Missing email")
     if 'password' not in new_user:
         return abort(400, description="Missing password")
     obj_user = User()
-    # obj_user.name = new_user['name']
     obj_user.email = new_user['email']
     obj_user.password = new_user['password']
-    storage.new(obj_user)
     storage.save()
     dict_obj = obj_user.to_dict()
     return make_response(jsonify(dict_obj), 201)
@@ -73,7 +69,6 @@ def edit_usr_id(id):
     """edit user by id"""
     if not request.get_json():
         abort(400, description="Not a JSON")
-
     dict_users = storage.all(User)
     new_user = request.get_json()
     u_key = "User." + id
