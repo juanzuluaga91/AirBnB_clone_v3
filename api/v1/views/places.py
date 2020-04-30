@@ -64,19 +64,20 @@ def post_place(city_id):
 
     new_place = request.get_json()
     all_cities = storage.all(City)
-    if not 'name' in new_place:
+    if 'name' not in new_place:
         return abort(400, description="Missing name")
     key = "City." + city_id
-    if not 'user_id' in new_place:
+    if 'user_id' not in new_place:
         return abort(400, description="Missing user_id")
-    atributes = ['name', 'number_rooms', 'number_bathrooms', 'max_guest', 'price_by_night']
+    atributes = ['name', 'number_rooms',
+                 'number_bathrooms', 'max_guest', 'price_by_night']
     if key in all_cities:
         obj_places = Place()
         obj_places.city_id = city_id
-        for key in new_place:
-            if key in atributes:
-                setattr(obj_places, key, new_place[key])
-        obj_places.save()    
+        for n_key in new_place:
+            if n_key in atributes:
+                setattr(obj_places, n_key, new_place[n_key])
+        obj_places.save()
         obj_places = obj_places.to_dict()
         return make_response(jsonify(obj_places), 201)
     else:
