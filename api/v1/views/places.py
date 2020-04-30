@@ -87,3 +87,23 @@ def post_place(city_id):
         return make_response(jsonify(obj_places), 201)
     else:
         abort(404)
+
+
+@app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
+def edit_place_id(id):
+    """edit place by id"""
+    if not request.get_json():
+        abort(400, description="Not a JSON")
+    dict_place = storage.all(Place)
+    new_place = request.get_json()
+    u_key = "Place." + id
+    if u_key in dict_place:
+        obj = dict_place[u_key]
+        for key, value in new_place.items():
+            if key not in ['id', 'user_id', 'city_id',
+                           'updated_at', 'create_at']:
+                setattr(obj, key, value)
+        obj.save()
+        return make_response(jsonify(obj.to_dict()), 200)
+    else:
+        abort(404)
