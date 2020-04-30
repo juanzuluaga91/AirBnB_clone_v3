@@ -25,6 +25,7 @@ def places_by_city(id):
     obj_list = jsonify(obj_list)
     return (obj_list)
 
+
 @app_views.route('/places/<id>',
                  methods=['GET'], strict_slashes=False)
 def places_by_id(id):
@@ -66,17 +67,17 @@ def post_place(city_id):
     all_cities = storage.all(City)
     if 'name' not in new_place:
         return abort(400, description="Missing name")
-    key = "City." + city_id
     if 'user_id' not in new_place:
         return abort(400, description="Missing user_id")
-    atributes = ['name', 'number_rooms',
+    key = "City." + city_id
+    atributes = ['number_rooms',
                  'number_bathrooms', 'max_guest', 'price_by_night']
     if key in all_cities:
+        obj_city = all_cities[key]
         obj_places = Place()
-        obj_places.city_id = city_id
-        for n_key in new_place:
-            if n_key in atributes:
-                setattr(obj_places, n_key, new_place[n_key])
+        obj_places.city_id = obj_city.id
+        obj_places.user_id = new_place["user_id"]
+        obj_places.name = new_place["name"]
         obj_places.save()
         obj_places = obj_places.to_dict()
         return make_response(jsonify(obj_places), 201)
