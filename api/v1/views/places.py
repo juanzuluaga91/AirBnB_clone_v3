@@ -70,14 +70,18 @@ def post_place(city_id):
     if 'user_id' not in new_place:
         return abort(400, description="Missing user_id")
     key = "City." + city_id
-    atributes = ['number_rooms',
-                 'number_bathrooms', 'max_guest', 'price_by_night']
+    atributes = ['number_rooms', 'number_bathrooms',
+                 'max_guest', 'price_by_night', 'latitude',
+                 'longitude', 'description']
     if key in all_cities:
         obj_city = all_cities[key]
         obj_places = Place()
         obj_places.city_id = obj_city.id
         obj_places.user_id = new_place["user_id"]
         obj_places.name = new_place["name"]
+        for p_key, p_val in new_place.items():
+            if p_key in atributes:
+                setattr(obj_places, p_key, p_val)
         obj_places.save()
         obj_places = obj_places.to_dict()
         return make_response(jsonify(obj_places), 201)
