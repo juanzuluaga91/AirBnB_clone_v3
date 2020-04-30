@@ -67,9 +67,9 @@ def post_place(city_id):
     new_place = request.get_json()
     all_cities = storage.all(City)
     if 'name' not in new_place:
-        return abort(400, description="Missing name")
+        abort(400, description="Missing name")
     if 'user_id' not in new_place:
-        return abort(400, description="Missing user_id")
+        abort(400, description="Missing user_id")
     key = "City." + city_id
     atributes = ['number_rooms', 'number_bathrooms',
                  'max_guest', 'price_by_night', 'latitude',
@@ -95,13 +95,13 @@ def post_place(city_id):
 
 
 @app_views.route('/places/<place_id>', methods=['PUT'], strict_slashes=False)
-def edit_place_id(id):
+def edit_place_id(place_id):
     """edit place by id"""
     if not request.get_json():
         abort(400, description="Not a JSON")
     dict_place = storage.all(Place)
     new_place = request.get_json()
-    u_key = "Place." + id
+    u_key = "Place." + place_id
     if u_key in dict_place:
         obj = dict_place[u_key]
         for key, value in new_place.items():
